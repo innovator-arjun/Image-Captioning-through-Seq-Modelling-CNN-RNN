@@ -105,8 +105,9 @@ def after():
 		padded = pad_sequences([encoded], maxlen=max_len, padding='post', truncating='post').reshape(1,max_len)
 		sampled_index = np.argmax(model.predict([incept, padded]))
 		sampled_word = inv_vocab[sampled_index]
-		if sampled_word != 'endofseq':
-			final = final + ' ' + sampled_word
+		final = final + ' ' + sampled_word
+		if sampled_word == 'endofseq':
+			break
 		text_in.append(sampled_word)
 	return render_template('predict.html',data=final.rsplit(' ', 1)[0])
 
